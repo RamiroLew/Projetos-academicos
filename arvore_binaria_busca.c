@@ -1,13 +1,13 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct No {
+typedef struct No { //criação da estrutura
     int valor;
     struct No *esquerda;
     struct No *direita;
 } No;
 
-No* criarNo(int valor) {
+No* criarNo(int valor) {    //criação do no na memoria
     No *novo = (No*) malloc(sizeof(No));
     if (novo == NULL) {
         printf("erro: memoria insuficiente.\n");
@@ -19,7 +19,7 @@ No* criarNo(int valor) {
     return novo;
 }
 
-No* inserir(No *raiz, int valor) {
+No* inserir(No *raiz, int valor) {  //criação da estrutura da base da arvore
     if (raiz == NULL) {
         return criarNo(valor);
     }
@@ -35,14 +35,14 @@ No* inserir(No *raiz, int valor) {
     return raiz;
 }
 
-No* encontrarMenor(No *raiz) {
+No* encontrarMenor(No *raiz) { //estrutura para localizar No
     while (raiz->esquerda != NULL) {
         raiz = raiz->esquerda;
     }
     return raiz;
 }
 
-No* remover(No *raiz, int valor) {
+No* remover(No *raiz, int valor) { //estrutura para remoção do No liberando da memoria
     if (raiz == NULL) {
         printf("Valor %d nao encontrado na arvore.\n", valor);
         return raiz;
@@ -71,28 +71,28 @@ No* remover(No *raiz, int valor) {
     return raiz;
 }
 
-void preOrdem(No *raiz) {
+void preOrdem(No *raiz) { // impressão da pre ordem
     if (raiz == NULL) return;
     printf("%d ", raiz->valor);  
     preOrdem(raiz->esquerda);     
     preOrdem(raiz->direita);     
 }
 
-void emOrdem(No *raiz) {
+void emOrdem(No *raiz) { // impressao em ordem
     if (raiz == NULL) return;
     emOrdem(raiz->esquerda);      
     printf("%d ", raiz->valor);  
     emOrdem(raiz->direita);       
 }
 
-void posOrdem(No *raiz) {
+void posOrdem(No *raiz) { 
     if (raiz == NULL) return;
     posOrdem(raiz->esquerda);     
     posOrdem(raiz->direita);    
     printf("%d ", raiz->valor);  
 }
 
-void liberarArvore(No *raiz) {
+void liberarArvore(No *raiz) {  // liberação da memoria
     if (raiz == NULL) return;
     liberarArvore(raiz->esquerda);
     liberarArvore(raiz->direita);
@@ -114,7 +114,7 @@ int main() {
     int opcao, valor;
 
     do {
-        printf("\n* * * MENU DE OPCOES * * *\n");
+        printf("\n* * * MENU DE OPCOES * * *\n");   //exibição do menu para aplicar as funções criadas
         printf("1. Incluir no.\n");
         printf("2. Remover no.\n");
         printf("3. Buscar pre-ordem.\n");
@@ -122,13 +122,13 @@ int main() {
         printf("5. Buscar pos-ordem.\n");
         printf("\nOpcao [0 para encerrar]: ");
 
-        if (scanf("%d", &opcao) != 1) {
+        if (scanf("%d", &opcao) != 1) { 
             printf("dntrada invalida.\n");
             while (getchar() != '\n');
             continue;
         }
 
-        switch (opcao) {
+        switch (opcao) { //case das funções
             case 1:
                 printf("digite o valor a incluir: ");
                 scanf("%d", &valor);
@@ -163,7 +163,7 @@ int main() {
 
     } while (opcao != 0);
 
-    liberarArvore(raiz);
+    liberarArvore(raiz); //liberação da memoria
 
     return 0;
 }
