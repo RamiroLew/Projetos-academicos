@@ -1,0 +1,83 @@
+    Modelo Conceitual (MER) 
+
+A partir da análise do processo de alocação de alunos e professores nas disciplinas da Faculdade XX, foram identificadas cinco entidades principais: 
+
+⦁	Curso — representa cada um dos cursos oferecidos pela faculdade. 
+
+⦁	Disciplina — representa as matérias que compõem a grade de cada curso. 
+
+⦁	Professor — representa o corpo docente da instituição. 
+
+⦁	Aluno — representa o corpo discente da instituição. 
+
+⦁	Turma — entidade que representa a ocorrência concreta de uma disciplina em um determinado horário, sala e professor responsável, em um semestre letivo. 
+
+Além dessas, foi identificada a necessidade de uma entidade associativa, Matricula_Turma, para resolver o relacionamento de muitos-para-muitos entre Aluno e Turma (um aluno cursa várias turmas e uma turma possui vários alunos). 
+
+Relacionamentos e cardinalidades 
+
+⦁	Curso (1) — (N) Disciplina: um curso possui várias disciplinas; cada disciplina pertence a um único curso. 
+
+⦁	Disciplina (1) — (N) Turma: uma disciplina pode ter várias turmas (turnos, semestres ou professores diferentes); cada turma refere-se a uma única disciplina. 
+
+⦁	Professor (1) — (N) Turma: um professor pode lecionar em várias turmas; cada turma possui um único professor responsável. 
+
+⦁	Curso (1) — (N) Aluno: um curso possui vários alunos matriculados; cada aluno está vinculado a um único curso. 
+
+⦁	Aluno (N) — (N) Turma: um aluno cursa várias turmas e uma turma possui vários alunos — relacionamento resolvido pela entidade associativa Matricula_Turma. 
+
+ 
+
+    Diagrama de Entidade-Relacionamento (DER)
++------------------------------------+
+|               CURSO                |
++------------------------------------+
+| PK  Cod_curso                      |
+|     Nome_curso                     |
+|     Turno                          |
+|     Duracao_semestres              |
++------------------------------------+
+       |                     |
+       | 1                   | 1
+       |                     |
+       | N                   | N
++--------------------+ +------------------------------------+
+|     DISCIPLINA     | |               ALUNO                |
++--------------------+ +------------------------------------+
+| PK  Cod_disciplina | | PK  Matricula                      |
+|     Nome_disciplina| |     Nome_aluno                     |
+| FK  Cod_curso      | |     CPF_aluno                      |
+|     Carga_horaria  | | FK  Cod_curso                      |
+|  Periodo_curricular| +------------------------------------+
++--------------------+                 |
+       | 1                             |
+       |                               | 1
+       | N                             |
++--------------------+                 |
+|       TURMA        |                 |
++--------------------+                 |
+| PK  Cod_turma      |                 |
+| FK  Cod_disciplina |                 |
+| FK  Cod_professor  |                 |
+|     Horario        |                 |
+|     Sala           |                 |
++--------------------+                 |
+       | 1                             |
+       |                               |
+       | N                             | N
+       |      +-----------------+      |
+       +----->| MATRICULA_TURMA |<-----+
+              +-----------------+
+              | PK,FK  Matricula|
+              | PK,FK  Cod_turma|
+              +-----------------+
+                       ^
+                       | N
+                       | 1
+              +--------------------+
+              |     PROFESSOR      |
+              +--------------------+
+              | PK  Cod_professor  |
+              |     Nome_professor |
+              |     CPF_professor  |
+              +--------------------+
